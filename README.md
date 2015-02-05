@@ -1,38 +1,76 @@
-Role Name
-=========
+ansible-django-stack
+====================
 
-A brief description of the role goes here.
+If you want a fast and easy way to deploy your Django application this role is for you. 
 
-Requirements
-------------
+It will install and configure the following packages:
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- nginx
+- gunicorn
+- supervisor
+
+*Currently only supports python3.*
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### server_name
 
-Dependencies
-------------
+*MANDATORY*
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The public host of your website.
+
+Example: www.example.com
+
+### project_root_path
+
+*MANDATORY*
+
+The root of your Django project. In other words, where the `manage.py` is located.
+
+Important: This path must be relative to your repository root path.
+
+### repo
+
+*MANDATORY*
+
+The git repository to fetch the project from.
+
+Example: git@github.com:poiati/example.git
+
+### project_requirements_path
+
+*OPTIONAL* | *DEFAULT 'requirements.txt'*
+
+Your requirements file.
+
+Important: This path must be relative to your repository root path.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yml
+- hosts: webservers
+  roles:
+    - ansible-django-stack
+  vars:
+    server_name: gosuscores.com
+    project_requirements_path: webapp/requirements.txt
+    project_root_path: webapp/psngamesweb
+    envs_path: /tmp/env
+    static_path: /usr/local/share/public
+    repo: git@github.com:poiati/psngames.git
+    ssh_private_key_path: /Users/poiati/.ssh/id_rsa_deploy
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Paulo Poiati
+
+http://blog.paulopoiati.com
