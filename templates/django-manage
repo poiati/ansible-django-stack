@@ -1,0 +1,19 @@
+#!/bin/bash
+
+ENV_FILE={{ remote['envs_path'] }}
+
+configure() {
+  if [ -f "$ENV_FILE" ]; then
+    for env in `cat "$ENV_FILE"`; do export $env; done
+  fi
+}
+
+changedir() {
+  cd {{ project_root_absolute_path }}
+}
+
+manage() {
+  python3 manage.py $*
+}
+
+configure && changedir && manage $*

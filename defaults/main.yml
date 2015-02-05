@@ -1,0 +1,14 @@
+---
+# The relative path from your requirements file.
+#
+# Relative to: your repository root path.
+project_requirements_path: requirements.txt
+
+# This must be the same value from your Django
+# settings.py STATIC_URL config but without the last slash ('/').
+#
+# EXAMPLE: '/static/' became '/static'
+static_url: /static
+
+run_commands:
+  - collectstatic

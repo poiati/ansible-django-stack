@@ -1,0 +1,23 @@
+---
+- name: Configure environment
+  copy: src={{ envs_path }} dest={{ remote['envs_path'] }}
+  when: envs_path is defined
+  notify: restart webapp
+
+- name: Copy private key
+  copy: src={{ ssh_private_key_path }} dest={{ remote['private_key_path'] }} mode=0600
+  when: ssh_private_key_path is defined
+
+- name: Copy source from git
+  git: repo={{ repo|mandatory }} dest={{ remote['git_root'] }} accept_hostkey=yes key_file={{ remote['private_key_path'] }}
+  notify: restart webapp
+
+- name: Remove private key
+  file: path={{ remote['private_key_path'] }} state=absent
+
+- name: Install pip requirements
+  pip: chdir={{ remote['git_root'] }} requirements={{ project_requirements_path|mandatory }} executable=pip3
+
+- name: Run commands
+  command: django-manage {{ item }} --noinput
+  with_items: run_commands

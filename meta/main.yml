@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: Paulo Poiati
+  description: Ansible Django Stack (nginx/gunicorn)
+  company: 2rows
+  license: MIT
+  min_ansible_version: 1.7
+  platforms:
+  - name: Ubuntu
+   versions:
+     - trusty
+   # - all
+   # - lucid
+   # - maverick
+   # - natty
+   # - oneiric
+   # - precise
+   # - quantal
+   # - raring
+   # - saucy
+  categories:
+    - web
+dependencies: []

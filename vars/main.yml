@@ -1,0 +1,8 @@
+---
+remote:
+  envs_path: /usr/local/etc/env
+  git_root: /usr/local/src/{{ server_name }}
+  private_key_path: /usr/local/etc/id_rsa
+  gunicorn_conf_path: /usr/local/etc/gunicorn.conf
+
+project_root_absolute_path: "{{ remote['git_root'] }}/{{ project_root_path|mandatory }}"
