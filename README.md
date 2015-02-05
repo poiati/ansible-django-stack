@@ -54,9 +54,9 @@ Example Playbook
   roles:
     - ansible-django-stack
   vars:
-    server_name: gosuscores.com
+    server_name: example.com
+    project_root_path: webapp/myprojectname
     project_requirements_path: webapp/requirements.txt
-    project_root_path: webapp/psngamesweb
     envs_path: /tmp/env
     static_path: /usr/local/share/public
     repo: git@github.com:poiati/psngames.git
