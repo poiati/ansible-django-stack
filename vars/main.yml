@@ -1,4 +1,18 @@
 ---
+python_config:
+  python3:
+    setuptools: python3-setuptools 
+    easy_install: easy_install-3.4
+    python_dev: python3-dev
+    psycopg: python3-psycopg2
+    pip: pip3
+  python2:
+    setuptools: python-setuptools 
+    easy_install: easy_install
+    python_dev: python-dev
+    psycopg: python-psycopg2
+    pip: pip
+
 remote:
   envs_path: /usr/local/etc/env
   git_root: /usr/local/src/{{ server_name }}

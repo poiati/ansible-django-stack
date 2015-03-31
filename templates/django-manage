@@ -13,7 +13,7 @@ changedir() {
 }
 
 manage() {
-  python3 manage.py $*
+  {{ python_version }} manage.py $*
 }
 
 configure && changedir && manage $*

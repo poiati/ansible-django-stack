@@ -8,6 +8,9 @@
 
 - name: Copy gunicorn config file
   template: src=gunicorn.conf dest={{ remote['gunicorn_conf_path'] }}
+  notify: 
+    - restart webapp
+    - restart supervisor
 
 - name: Copy supervisor config file
   template: src=supervisor.conf dest=/etc/supervisor/conf.d/webapp.conf 

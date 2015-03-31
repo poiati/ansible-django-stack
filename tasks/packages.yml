@@ -9,14 +9,15 @@
   apt: name=supervisor state=present update_cache=yes
 
 - name: Install setuptools
-  apt: name=python3-setuptools state=present update_cache=yes
+  apt: name={{ python_config[python_version]['setuptools'] }} state=present update_cache=yes
 
 - name: Install pip
-  easy_install: name=pip executable=easy_install-3.4
+  easy_install: name=pip executable=python_config[python_version]['easy_install']
 
-- name: Install psycopg2 dependencies
+- name: Install database dependencies
   apt: name={{ item }} state=present update_cache=yes
   with_items:
-    - python3-dev
-    - python3-psycopg2
+    - "{{ python_config[python_version]['python_dev'] }}"
+    - "{{ python_config[python_version]['psycopg'] }}"
     - libpq-dev  
+    - libmysqlclient-dev 

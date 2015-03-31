@@ -16,7 +16,7 @@
   file: path={{ remote['private_key_path'] }} state=absent
 
 - name: Install pip requirements
-  pip: chdir={{ remote['git_root'] }} requirements={{ project_requirements_path|mandatory }} executable=pip3
+  pip: chdir={{ remote['git_root'] }} requirements={{ project_requirements_path|mandatory }} executable={{ python_config[python_version]['pip'] }}
 
 - name: Run commands
   command: django-manage {{ item }} --noinput

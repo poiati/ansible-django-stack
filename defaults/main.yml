@@ -10,5 +10,8 @@ project_requirements_path: requirements.txt
 # EXAMPLE: '/static/' became '/static'
 static_url: /static
 
+# Python version
+python_version: python3 
+
 run_commands:
   - collectstatic
