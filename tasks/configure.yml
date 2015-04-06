@@ -6,6 +6,17 @@
 - name: Symlink config
   file: src=/etc/nginx/sites-available/nginx.conf dest=/etc/nginx/sites-enabled/default state=link
 
+- name: Create app user
+  user: state=present name={{ app_user }} createhome=no 
+
+- name: Create directories
+  file: path={{ remote_root }}/{{ item }} state=directory recurse=yes owner={{ app_user }} group={{ app_user }}
+  with_items:
+    - conf
+    - src
+    - tmp
+    - bin
+
 - name: Copy gunicorn config file
   template: src=gunicorn.conf dest={{ remote['gunicorn_conf_path'] }}
   notify: 
@@ -17,5 +28,7 @@
   notify: restart supervisor
 
 - name: Configure django_manage
-  template: src=django-manage dest=/usr/local/bin/django-manage mode="u=rwx,g=rx,o=rx"
+  template: src=django-manage dest={{ remote['django_manage_path'] }} mode="u=rwx,g=rx,o=rx"
 
+- name: Configure path
+  copy: dest=/etc/profile.d/{{ app_user }}.sh content="PATH=\"$PATH:{{ remote_root }}/bin\""

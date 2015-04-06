@@ -13,10 +13,15 @@ python_config:
     psycopg: python-psycopg2
     pip: pip
 
-remote:
-  envs_path: /usr/local/etc/env
-  git_root: /usr/local/src/{{ server_name }}
-  private_key_path: /usr/local/etc/id_rsa
-  gunicorn_conf_path: /usr/local/etc/gunicorn.conf
+_server_name: "{{ server_name | mandatory }}"
+remote_root: /opt/{{ _server_name }}
 
-project_root_absolute_path: "{{ remote['git_root'] }}/{{ project_root_path|mandatory }}"
+remote:
+  envs_path: "{{ remote_root }}/conf/env"
+  socket_path: "unix:{{ remote_root }}/tmp/gunicorn.sock"
+  git_root: "{{ remote_root }}/src"
+  private_key_path: "{{ remote_root }}/tmp/ssl.key"
+  gunicorn_conf_path: "{{ remote_root }}/conf/gunicorn.conf"
+  django_manage_path: "{{ remote_root }}/bin/django-manage"
+
+project_root_absolute_path: "{{ remote['git_root'] }}/{{ project_root_path | mandatory }}"

@@ -1,7 +1,6 @@
 ---
-- name: Configure environment
-  copy: src={{ envs_path }} dest={{ remote['envs_path'] }}
-  when: envs_path is defined
+- name: Set environment
+  template: src=env.j2 dest={{ remote['envs_path'] }}
   notify: restart webapp
 
 - name: Copy private key
@@ -9,12 +8,12 @@
   when: ssh_private_key_path is defined
 
 - name: Copy source from git
-  git: repo={{ repo|mandatory }} dest={{ remote['git_root'] }} accept_hostkey=yes key_file={{ remote['private_key_path'] }}
+  git: repo={{ repo | mandatory }} dest={{ remote['git_root'] }} accept_hostkey=yes key_file={{ remote['private_key_path'] }}
   notify: restart webapp
 
 - name: Install pip requirements
-  pip: chdir={{ remote['git_root'] }} requirements={{ project_requirements_path|mandatory }} executable={{ python_config[python_version]['pip'] }}
+  pip: state=latest extra_args="-U" chdir={{ remote['git_root'] }} requirements={{ project_requirements_path | mandatory }} executable={{ python_config[python_version]['pip'] }}
 
 - name: Run commands
-  command: django-manage {{ item }} --noinput
+  command: "{{ remote['django_manage_path'] }} {{ item }} --noinput"
   with_items: run_commands
